@@ -1,11 +1,13 @@
-rpmbuild_src = $(shell rpmbuild --eval '%{_sourcedir}')
-nginx_ver = $(shell dnf list -q nginx | tail -n+2 | head -1 | awk '{gsub(/^.*:|-[0-9]+\.[a-z0-9]+$$/, "", $$2); print $$2}')
+rpmbuild_src := $(shell rpmbuild --eval '%{_sourcedir}')
+# nginx_ver = $(shell dnf list -q nginx | tail -n+2 | head -1 | awk '{gsub(/^.*:|-[0-9]+\.[a-z0-9]+$$/, "", $$2); print $$2}')
+nginx_ver := 1.41.1
 
 %.spec: %.spec.in
 	sed -e 's/@NGINXVER@/$(nginx_ver)/g' $< > $@
 
 .PHONY: prepare
 prepare: $(spec)
+	dnf list -q nginx
 	dnf -y install rpmdevtools rpm-build
 	cp *.* $(rpmbuild_src)
 	spectool -g -R $(spec)
