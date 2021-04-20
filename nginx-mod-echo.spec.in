@@ -1,7 +1,7 @@
 Summary: Directives "echo", "sleep", "time" and more
 Name: nginx-mod-echo
 Version: 0.61
-Release: 3%{?dist}
+Release: 4%{?dist}
 Vendor: Artera
 URL: https://github.com/openresty/echo-nginx-module
 
@@ -42,7 +42,7 @@ Directives "echo", "sleep", "time" and more.
 
 %build
 cd %{_builddir}/nginx-%{_nginxver}
-./configure --with-compat --add-dynamic-module=../%{_modname}-nginx-module-%{version}
+./configure --with-file-aio --with-ipv6 --with-stream %(nginx -V 2>&1 | grep -Po -- '--with-http[^ ]+' | xargs echo) --with-cc-opt='%{optflags}' --add-dynamic-module=../%{_modname}-nginx-module-%{version}
 make modules
 
 %install
