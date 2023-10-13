@@ -41,7 +41,7 @@ Directives "echo", "sleep", "time" and more.
 
 %build
 cd %{_builddir}/nginx-%{_nginxver}
-./configure --with-file-aio --with-ipv6 --with-stream %(nginx -V 2>&1 | grep -Po -- '--with-http[^ ]+' | xargs echo) --with-cc-opt='%{optflags}' --add-dynamic-module=../%{_modname}-nginx-module-%{version}
+./configure --with-compat --add-dynamic-module=../%{_modname}-nginx-module-%{version}
 make modules
 
 %install
